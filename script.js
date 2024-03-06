@@ -1,7 +1,7 @@
 //// S'insrcire sur Open Weather Map
 // ----------------------------------------------------------------------------------------------------------------
 // Récupérer la clé API dans votre compte - en haut à droite (My API keys)
-// 89c8c009188a5d75af1cd22c697cd4ad
+// 
 // ----------------------------------------------------------------------------------------------------------------
 // Parcourir la doc pour récupérer le lien que vous utiliserez
 // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
@@ -30,7 +30,7 @@
 //         button.addEventListener('click', () => {
 //             navigator.geolocation.getCurrentPosition(position => {
 //                 const { latitude, longitude } = position.coords;
-//                 const apiKey = '89c8c009188a5d75af1cd22c697cd4ad';
+//                 const apiKey = '';
 //                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 //             });
 //         });
@@ -45,7 +45,7 @@
 //         button.addEventListener('click', () => {
 //             navigator.geolocation.getCurrentPosition(position => {
 //                 const { latitude, longitude } = position.coords;
-//                 const apiKey = '89c8c009188a5d75af1cd22c697cd4ad';
+//                 const apiKey = '';
 //                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 //                 fetch(apiUrl)
 //                     .then(response => {
@@ -73,7 +73,7 @@
 //         button.addEventListener('click', () => {
 //             navigator.geolocation.getCurrentPosition(position => {
 //                 const { latitude, longitude } = position.coords;
-//                 const apiKey = '89c8c009188a5d75af1cd22c697cd4ad';
+//                 const apiKey = '';
 //                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 //                 fetch(apiUrl)
 //                     .then(response => {
@@ -113,7 +113,7 @@ const button = document.querySelector('button');
 button.addEventListener('click', () => {
     navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords;
-        const apiKey = '89c8c009188a5d75af1cd22c697cd4ad';
+        const apiKey = '';
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
         fetch(apiUrl)
             .then(response => {
