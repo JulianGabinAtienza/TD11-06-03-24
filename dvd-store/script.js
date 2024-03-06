@@ -1,5 +1,6 @@
 const btn = document.querySelector('.btn');
 const result = document.querySelector('.result');
+const favorites = [];
 
 btn.addEventListener('click', getMovies);
 
@@ -12,43 +13,40 @@ function getMovies() {
 
     axios.get(dataUrl)
         .then(response => {
-            // Traitement de la réponse de l'API
             const movies = response.data.Search;
-            console.log(movies); // Afficher les données des films dans la console
-
-            // Afficher les détails des films dans votre élément de résultat
             result.innerHTML = '';
             if (movies) {
                 movies.forEach(movie => {
-                    result.innerHTML += `
-                        <div class="movie">
-                            <img src="${movie.Poster}" alt="${movie.Title} Poster">
-                            <h2>${movie.Title}</h2>
-                            <p>Year: ${movie.Year}</p>
-                            <p>Type: ${movie.Type}</p>
-                            <button class="favoris" data-id="${movie.imdbID}">Ajouter aux favoris</button>
-                            <button class="unfavoris" data-id="${movie.imdbID}">Retirer des favoris</button>
-                        </div>
-                    `;  
-                if (document.querySelector('.favoris')) {
-                    const favoris = document.querySelectorAll('.favoris');
-                    favoris.forEach(favori => {
-                        favori.addEventListener('click', (e) => {
-                            const id = e.target.getAttribute('data-id');
-                            const movie = movies.find(movie => movie.imdbID === id);
-                            console.log('Ajout du film aux favoris:', movie);
-                            // Disable the button after it is clicked
-                            e.target.disabled = true;
-                            // change the button text
-                            e.target.textContent = 'favoris';
-                            if (e.target.disabled === true) {
-                                const unfav = document.querySelector('.unfavoris');
-                                unfav.style.display = inline;
+                    const movieElement = document.createElement('div');
+                    movieElement.classList.add('movie');
+                    movieElement.innerHTML = `
+                        <img src="${movie.Poster}" alt="${movie.Title} Poster">
+                        <h2>${movie.Title}</h2>
+                        <p>Year: ${movie.Year}</p>
+                        <p>Type: ${movie.Type}</p>
+                        <button class="favoris" data-id="${movie.imdbID}">Ajouter/Retirer des favoris</button>
+                    `;
+                    const favoriButton = movieElement.querySelector('.favoris');
+                    favoriButton.addEventListener('click', (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        const isFavori = favoriButton.classList.toggle('isFavori');
+                        favoriButton.textContent = isFavori ? 'Retirer des favoris' : 'Ajouter aux favoris';
+                        if (isFavori) {
+                            favorites.push(id);
+                            favoriButton.style.backgroundColor = 'red';
+                        } else {
+                            const index = favorites.indexOf(id);
+                            if (index > -1) {
+                                favorites.splice(index, 1);
                             }
-                        });
+                            favoriButton.style.backgroundColor = '#efefef';
+                        }
+                        console.log(isFavori ? 'Ajout du film aux favoris:' : 'Retrait du film des favoris:', movie);
                     });
-                }
-            })} else {
+
+                    result.appendChild(movieElement);
+                });
+            } else {
                 result.textContent = 'Aucun résultat trouvé';
             }
         })
@@ -56,4 +54,31 @@ function getMovies() {
             console.error('Une erreur est survenue lors de la récupération des données du film:', error);
             result.textContent = 'Erreur lors de la récupération des données du film';
         });
+}
+
+const favorisBtn = document.querySelector('.favlist');
+favorisBtn.addEventListener('click', showFavorites);
+
+function showFavorites() {
+    result.innerHTML = '';
+    const key = 'fbf35dd6';
+    const dataUrl = `http://www.omdbapi.com/?apikey=${key}&i=`;
+    favorites.forEach(id => {
+        axios.get(dataUrl + id)
+            .then(response => {
+                const movie = response.data;
+                const movieElement = document.createElement('div');
+                movieElement.classList.add('movie');
+                movieElement.innerHTML = `
+                    <img src="${movie.Poster}" alt="${movie.Title} Poster">
+                    <h2>${movie.Title}</h2>
+                    <p>Year: ${movie.Year}</p>
+                    <p>Type: ${movie.Type}</p>
+                `;
+                result.appendChild(movieElement);
+            })
+            .catch(error => {
+                console.error('Une erreur est survenue lors de la récupération des données du film:', error);
+            });
+    });
 }
