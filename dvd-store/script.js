@@ -24,7 +24,7 @@ function getMovies() {
                         <h2>${movie.Title}</h2>
                         <p>Year: ${movie.Year}</p>
                         <p>Type: ${movie.Type}</p>
-                        <button class="favoris" data-id="${movie.imdbID}">Ajouter/Retirer des favoris</button>
+                        <button class="favoris" data-id="${movie.imdbID}">Ajouter des favoris</button>
                     `;
                     const favoriButton = movieElement.querySelector('.favoris');
                     favoriButton.addEventListener('click', (e) => {
